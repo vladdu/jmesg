@@ -69,7 +69,7 @@ public class JmesgApplication {
             return messageList;
         });
         System.out.println(obj);
-        log.info("All messages received: " + obj);
+        log.info("~All messages received: " + obj);
 
         //sleep(1000); // Wait for the message to be received
         assert obj != null;
