@@ -24,6 +24,8 @@ import java.util.Objects;
 @EnableJms
 public class JmesgApplication {
 
+    public static final String MAILBOX = "mailbox";
+
     @Bean
     public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
                                                     DefaultJmsListenerContainerFactoryConfigurer configurer) {
@@ -50,11 +52,12 @@ public class JmesgApplication {
 
         // Send a message with a POJO - the template reuse the message converter
         System.out.println("Sending an email message.");
-        jmsTemplate.convertAndSend("mailbox", new Email("info@example.com", "Hello"));
-        jmsTemplate.convertAndSend("mailbox", new Email("info2@example.com", "Hello2"));
+        jmsTemplate.convertAndSend(MAILBOX, new Email("info@example.com", "Hello"));
+        jmsTemplate.convertAndSend(MAILBOX, new Email("info2@example.com", "Hello2"));
+        jmsTemplate.convertAndSend(MAILBOX, new Email("info3@example.com", "Hello3"));
         //sleep(1000); // Wait for the message to be received
 
-        List<Email> obj = jmsTemplate.browse("mailbox", (session, message) -> {
+        List<Email> obj = jmsTemplate.browse(MAILBOX, (session, message) -> {
             Enumeration<?> browserEnumeration = message.getEnumeration();
             List<Email> messageList = new ArrayList<>();
             while (browserEnumeration.hasMoreElements()) {
@@ -68,7 +71,7 @@ public class JmesgApplication {
         //sleep(1000); // Wait for the message to be received
         assert obj != null;
         for (Email email : obj) {
-            Object result = jmsTemplate.receiveAndConvert("mailbox");
+            Object result = jmsTemplate.receiveAndConvert(MAILBOX);
             System.out.println(result);
         }
     }
