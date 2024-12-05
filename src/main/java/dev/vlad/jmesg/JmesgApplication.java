@@ -2,6 +2,7 @@ package dev.vlad.jmesg;
 
 import jakarta.jms.ConnectionFactory;
 import jakarta.jms.Message;
+import lombok.extern.java.Log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -22,6 +23,7 @@ import java.util.Objects;
 
 @SpringBootApplication
 @EnableJms
+@Log
 public class JmesgApplication {
 
     public static final String MAILBOX = "mailbox";
@@ -67,6 +69,7 @@ public class JmesgApplication {
             return messageList;
         });
         System.out.println(obj);
+        log.info("All messages received: " + obj);
 
         //sleep(1000); // Wait for the message to be received
         assert obj != null;
