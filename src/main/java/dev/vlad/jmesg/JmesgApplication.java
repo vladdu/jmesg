@@ -53,7 +53,6 @@ public class JmesgApplication {
         // Send a message with a POJO - the template reuse the message converter
         System.out.println("Sending an email message.");
         jmsTemplate.convertAndSend(MAILBOX, new Email("info@example.com", "Hello"));
-        jmsTemplate.convertAndSend(MAILBOX, new Email("info2@example.com", "Hello2"));
         jmsTemplate.convertAndSend(MAILBOX, new Email("info3@example.com", "Hello3"));
         //sleep(1000); // Wait for the message to be received
 
