@@ -18,6 +18,7 @@ import org.springframework.jms.support.converter.MessageType;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 
 @SpringBootApplication
 @EnableJms
@@ -54,11 +55,11 @@ public class JmesgApplication {
         //sleep(1000); // Wait for the message to be received
 
         List<Email> obj = jmsTemplate.browse("mailbox", (session, message) -> {
-            Enumeration<Message> browserEnumeration = message.getEnumeration();
+            Enumeration<?> browserEnumeration = message.getEnumeration();
             List<Email> messageList = new ArrayList<>();
             while (browserEnumeration.hasMoreElements()) {
-                Message next = browserEnumeration.nextElement();
-                messageList.add((Email) jmsTemplate.getMessageConverter().fromMessage(next));
+                Message next = (Message) browserEnumeration.nextElement();
+                messageList.add((Email) Objects.requireNonNull(jmsTemplate.getMessageConverter()).fromMessage(next));
             }
             return messageList;
         });
