@@ -52,6 +52,7 @@ public class JmesgApplication {
         System.out.println("Sending an email message.");
         jmsTemplate.convertAndSend("mailbox", new Email("info@example.com", "Hello"));
         jmsTemplate.convertAndSend("mailbox", new Email("info2@example.com", "Hello2"));
+        jmsTemplate.convertAndSend("mailbox", new Email("info3@example.com", "Hello3"));
         //sleep(1000); // Wait for the message to be received
 
         List<Email> obj = jmsTemplate.browse("mailbox", (session, message) -> {
